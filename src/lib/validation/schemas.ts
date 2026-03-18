@@ -81,7 +81,7 @@ export const TrainingFilterSchema = z.object({
   startDate: isoDate.optional(),
   endDate: isoDate.optional(),
   sport: SportSchema.optional(),
-  limit: z.coerce.number().int().min(1).max(500).default(100),
+  limit: z.coerce.number().int().min(1).max(500).default(100).optional(),
 });
 
 // ---- Metrics -----------------------------------------------
