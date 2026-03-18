@@ -121,8 +121,9 @@ export async function createTask(input: CreateTaskInput): Promise<Task> {
 
   await appendRow(SHEET_NAMES.TASKS, taskToRow(task));
 
-  // Invalidate list caches; keep item cache warm
+  // Invalidate list caches and dashboard; keep item cache warm
   cache.invalidate("tasks:list:");
+  cache.invalidate("dashboard:");
   cache.set(cacheKeys.task(task.id), task, CACHE_TTL.TASKS);
 
   return task;
@@ -146,8 +147,9 @@ export async function updateTask(input: UpdateTaskInput): Promise<Task> {
 
   await updateRow(SHEET_NAMES.TASKS, rowIndex, taskToRow(updated));
 
-  // Invalidate all caches for this item
+  // Invalidate all caches for this item and dashboard
   cache.invalidate("tasks:");
+  cache.invalidate("dashboard:");
   cache.set(cacheKeys.task(id), updated, CACHE_TTL.TASKS);
 
   return updated;
@@ -159,6 +161,7 @@ export async function deleteTask(id: string): Promise<void> {
 
   await deleteRow(SHEET_NAMES.TASKS, rowIndex);
   cache.invalidate("tasks:");
+  cache.invalidate("dashboard:");
 }
 
 export async function toggleTaskCompletion(id: string): Promise<Task> {

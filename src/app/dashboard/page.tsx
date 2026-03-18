@@ -4,9 +4,8 @@ import { format } from "date-fns";
 import { AppShell } from "@/components/layout/AppShell";
 import { TasksWidget } from "@/components/dashboard/TasksWidget";
 import { TrainingWidget } from "@/components/dashboard/TrainingWidget";
-import { MetricsWidget } from "@/components/dashboard/MetricsWidget";
+import { HabitTrackerWidget } from "@/components/dashboard/HabitTrackerWidget";
 import { useDashboard } from "@/hooks/useDashboard";
-import { useTasks } from "@/hooks/useTasks";
 import { BookOpen, RefreshCw } from "lucide-react";
 import { Card, CardHeader, CardTitle } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
@@ -14,7 +13,6 @@ import Link from "next/link";
 
 export default function DashboardPage() {
   const { data, loading, error, fromCache, refetch } = useDashboard();
-  const { toggleTask } = useTasks({ enabled: false }); // reuse toggle logic
 
   const today = format(new Date(), "EEEE, MMMM d");
 
@@ -90,8 +88,8 @@ export default function DashboardPage() {
                   <p className="text-sm font-medium text-white">
                     {data.recentDiaryEntry.title}
                   </p>
-                  <span className="text-lg" title={`Mood: ${data.recentDiaryEntry.mood}/5`}>
-                    {["😞", "😕", "😐", "🙂", "😄"][data.recentDiaryEntry.mood - 1]}
+                  <span className="text-sm font-bold text-brand-400" title={`Mood: ${data.recentDiaryEntry.mood}/5`}>
+                    {data.recentDiaryEntry.mood}/5
                   </span>
                 </div>
                 <p className="text-xs text-gray-500 mb-3">{data.recentDiaryEntry.date}</p>
@@ -111,8 +109,8 @@ export default function DashboardPage() {
             )}
           </Card>
 
-          {/* Metrics */}
-          <MetricsWidget metrics={data.latestMetrics} />
+          {/* Habit Tracker */}
+          <HabitTrackerWidget />
         </div>
       ) : null}
     </AppShell>

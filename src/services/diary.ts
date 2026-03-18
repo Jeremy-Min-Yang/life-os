@@ -72,6 +72,7 @@ export async function createDiaryEntry(input: CreateDiaryInput): Promise<DiaryEn
 
   await appendRow(SHEET_NAMES.DIARY, entryToRow(entry));
   cache.invalidate("diary:");
+  cache.invalidate("habits:");
 
   return entry;
 }
@@ -89,6 +90,7 @@ export async function updateDiaryEntry(input: UpdateDiaryInput): Promise<DiaryEn
 
   await updateRow(SHEET_NAMES.DIARY, rowIndex, entryToRow(updated));
   cache.invalidate("diary:");
+  cache.invalidate("habits:");
 
   return updated;
 }
@@ -98,4 +100,5 @@ export async function deleteDiaryEntry(id: string): Promise<void> {
   if (rowIndex === -1) throw new Error(`Diary entry ${id} not found`);
   await deleteRow(SHEET_NAMES.DIARY, rowIndex);
   cache.invalidate("diary:");
+  cache.invalidate("habits:");
 }

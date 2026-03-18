@@ -90,6 +90,7 @@ export async function createTrainingSession(
 
   await appendRow(SHEET_NAMES.TRAINING, sessionToRow(session));
   cache.invalidate("training:");
+  cache.invalidate("habits:");
   cache.set(cacheKeys.trainingSession(session.id), session, CACHE_TTL.TRAINING);
 
   return session;
@@ -113,6 +114,7 @@ export async function updateTrainingSession(
 
   await updateRow(SHEET_NAMES.TRAINING, rowIndex, sessionToRow(merged));
   cache.invalidate("training:");
+  cache.invalidate("habits:");
 
   return merged;
 }
@@ -122,6 +124,7 @@ export async function deleteTrainingSession(id: string): Promise<void> {
   if (rowIndex === -1) throw new Error(`Training session ${id} not found`);
   await deleteRow(SHEET_NAMES.TRAINING, rowIndex);
   cache.invalidate("training:");
+  cache.invalidate("habits:");
 }
 
 async function getSessionById(id: string): Promise<TrainingSession | null> {

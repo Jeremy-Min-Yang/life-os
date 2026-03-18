@@ -16,7 +16,6 @@ import { cn } from "@/lib/utils/cn";
 
 type FormValues = z.infer<typeof CreateDiarySchema>;
 
-const moodEmoji = ["😞", "😕", "😐", "🙂", "😄"];
 const moodLabels = ["Terrible", "Bad", "Neutral", "Good", "Great"];
 
 const fieldClass = cn(
@@ -97,7 +96,7 @@ export default function DiaryPage() {
                 )}
               >
                 <div className="flex items-center gap-2">
-                  <span>{moodEmoji[entry.mood - 1]}</span>
+                  <span className="text-sm font-bold text-brand-400">{entry.mood}</span>
                   <p className="text-sm font-medium text-white flex-1 truncate">{entry.title}</p>
                 </div>
                 <p className="text-xs text-gray-500 mt-1">{entry.date}</p>
@@ -135,12 +134,12 @@ export default function DiaryPage() {
                         type="button"
                         onClick={() => setValue("mood", m as FormValues["mood"])}
                         className={cn(
-                          "flex-1 py-2 rounded-lg text-xl transition-colors",
-                          mood === m ? "bg-brand-600/30 ring-1 ring-brand-500" : "bg-surface-100 hover:bg-surface-200"
+                          "flex-1 py-2 rounded-lg text-sm font-semibold transition-colors",
+                          mood === m ? "bg-brand-600/30 ring-1 ring-brand-500 text-brand-300" : "bg-surface-100 hover:bg-surface-200 text-gray-400"
                         )}
                         title={moodLabels[m - 1]}
                       >
-                        {moodEmoji[m - 1]}
+                        {m}
                       </button>
                     ))}
                   </div>
@@ -166,7 +165,7 @@ export default function DiaryPage() {
           ) : selected ? (
             <Card>
               <div className="flex items-center gap-3 mb-4">
-                <span className="text-3xl">{moodEmoji[selected.mood - 1]}</span>
+                <span className="text-2xl font-bold text-brand-400">{selected.mood}</span>
                 <div>
                   <h3 className="text-lg font-semibold text-white">{selected.title}</h3>
                   <p className="text-xs text-gray-500">{selected.date} · {moodLabels[selected.mood - 1]}</p>
