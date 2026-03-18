@@ -56,11 +56,11 @@ class CacheStore {
   }
 
   invalidate(keyPrefix: string): void {
-    for (const key of this.store.keys()) {
+    Array.from(this.store.keys()).forEach((key) => {
       if (key.startsWith(keyPrefix)) {
         this.store.delete(key);
       }
-    }
+    });
   }
 
   invalidateAll(): void {
@@ -69,9 +69,9 @@ class CacheStore {
 
   private cleanup(): void {
     const now = Date.now();
-    for (const [key, entry] of this.store.entries()) {
+    Array.from(this.store.entries()).forEach(([key, entry]) => {
       if (now > entry.expiresAt) this.store.delete(key);
-    }
+    });
   }
 
   stats() {
