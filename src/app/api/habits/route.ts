@@ -17,11 +17,11 @@ const GET = withRateLimit(
       CACHE_TTL.TRAINING,
       async () => {
         const [sessions, entries] = await Promise.all([
-          getTrainingSessions({ startDate }),
+          getTrainingSessions({ startDate, limit: 500 }),
           getDiaryEntries({ limit: 400 }),
         ]);
 
-        const trainingDates = [...new Set(sessions.map((s) => s.date))];
+        const trainingDates = Array.from(new Set(sessions.map((s) => s.date)));
         const journalDates = entries
           .filter((e) => e.date >= startDate)
           .map((e) => e.date);
