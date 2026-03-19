@@ -22,7 +22,6 @@ export const CACHE_TTL = {
   TASKS: 30_000,       // 30s — tasks change frequently
   DIARY: 60_000,       // 1min — diary entries are less volatile
   TRAINING: 120_000,   // 2min
-  METRICS: 300_000,    // 5min — daily data, rarely changes
   DASHBOARD: 60_000,   // 1min — aggregated view
 } as const;
 
@@ -124,7 +123,5 @@ export const cacheKeys = {
   training: (params?: Record<string, unknown>) =>
     `training:list:${JSON.stringify(params ?? {})}`,
   trainingSession: (id: string) => `training:item:${id}`,
-  metrics: (params?: Record<string, unknown>) =>
-    `metrics:list:${JSON.stringify(params ?? {})}`,
   dashboard: () => `dashboard:main`,
 };

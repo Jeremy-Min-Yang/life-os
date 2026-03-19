@@ -84,22 +84,3 @@ export const TrainingFilterSchema = z.object({
   limit: z.coerce.number().int().min(1).max(500).default(100).optional(),
 });
 
-// ---- Metrics -----------------------------------------------
-
-export const CreateMetricsSchema = z.object({
-  date: isoDate,
-  weightKg: z.number().min(20).max(300).optional(),
-  restingHr: z.number().int().min(30).max(120).optional(),
-  sleepHours: z.number().min(0).max(24).optional(),
-  fatigueScore: z.number().int().min(1).max(10).optional(),
-  hrv: z.number().int().min(0).max(300).optional(),
-  notes: z.string().max(1000).optional(),
-});
-
-export const UpdateMetricsSchema = CreateMetricsSchema.partial().extend({ id: uuid });
-
-export const MetricsFilterSchema = z.object({
-  startDate: isoDate.optional(),
-  endDate: isoDate.optional(),
-  limit: z.coerce.number().int().min(1).max(365).default(90),
-});

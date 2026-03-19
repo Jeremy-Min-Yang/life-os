@@ -63,7 +63,6 @@ export default function SettingsPage() {
               { name: "Tasks", status: "Active", desc: "Daily/Weekly/Monthly/Yearly" },
               { name: "Diary", status: "Active", desc: "Mood-tagged journal entries" },
               { name: "Training", status: "Active", desc: "Swim / Bike / Run with TSS" },
-              { name: "Metrics", status: "Active", desc: "Weight, HR, Sleep, Fatigue" },
               { name: "AI Coaching", status: "Coming soon", desc: "Performance analysis" },
             ].map(({ name, status, desc }) => (
               <div key={name} className="flex items-center justify-between py-1">

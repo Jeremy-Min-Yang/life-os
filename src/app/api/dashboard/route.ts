@@ -6,8 +6,7 @@ import { format } from "date-fns";
 import { getTasks } from "@/services/tasks";
 import { getDiaryEntries } from "@/services/diary";
 import { getWeeklyVolume, getTrainingLoad } from "@/services/training";
-import { getLatestMetrics } from "@/services/metrics";
-import { DashboardData, apiSuccess, apiError } from "@/types";
+import { DashboardData, apiSuccess } from "@/types";
 import { withAuth, withRateLimit } from "@/lib/utils/api";
 import { withCache, cacheKeys, CACHE_TTL } from "@/lib/cache";
 
@@ -20,12 +19,11 @@ const GET = withRateLimit(
       CACHE_TTL.DASHBOARD,
       async (): Promise<DashboardData> => {
         // Fetch all modules in parallel — critical for dashboard performance
-        const [todayTasks, diaryEntries, weeklyTrainingSummary, latestMetrics, trainingLoad] =
+        const [todayTasks, diaryEntries, weeklyTrainingSummary, trainingLoad] =
           await Promise.all([
             getTasks({ scope: "daily", date: today, limit: 20 }),
             getDiaryEntries({ limit: 1 }),
             getWeeklyVolume(),
-            getLatestMetrics(),
             getTrainingLoad(90),
           ]);
 
@@ -33,7 +31,6 @@ const GET = withRateLimit(
           todayTasks,
           weeklyTrainingSummary,
           recentDiaryEntry: diaryEntries[0] ?? null,
-          latestMetrics,
           trainingLoad,
         };
       }

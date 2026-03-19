@@ -11,7 +11,7 @@ const inter = Inter({
 
 export const metadata: Metadata = {
   title: "Life OS",
-  description: "Personal Operating System — Tasks, Training, Diary, Metrics",
+  description: "Personal Operating System — Tasks, Training, Diary",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

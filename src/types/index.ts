@@ -100,33 +100,12 @@ export interface WeeklyVolume {
   totalTss: number;
 }
 
-// ---- Metrics -----------------------------------------------
-
-export interface DailyMetrics {
-  id: UUID;
-  date: ISODateString;
-  weightKg?: number;
-  restingHr?: number;
-  sleepHours?: number;
-  // Subjective fatigue: 1-10 (1=fresh, 10=exhausted)
-  fatigueScore?: number;
-  // HRV if available (future wearable integration)
-  hrv?: number;
-  notes?: string;
-  createdAt: ISODateTimeString;
-  updatedAt: ISODateTimeString;
-}
-
-export type CreateMetricsInput = Omit<DailyMetrics, "id" | "createdAt" | "updatedAt">;
-export type UpdateMetricsInput = Partial<Omit<DailyMetrics, "id" | "createdAt">> & { id: UUID };
-
 // ---- Dashboard Aggregates ----------------------------------
 
 export interface DashboardData {
   todayTasks: Task[];
   weeklyTrainingSummary: WeeklyVolume;
   recentDiaryEntry: DiaryEntry | null;
-  latestMetrics: DailyMetrics | null;
   trainingLoad: TrainingLoad | null;
 }
 

@@ -12,7 +12,6 @@ export const SHEET_NAMES = {
   TASKS: "Tasks",
   DIARY: "Diary",
   TRAINING: "Training",
-  METRICS: "Metrics",
 } as const;
 
 // ---- Tasks Sheet -------------------------------------------
@@ -83,22 +82,3 @@ export const TRAINING_HEADERS = [
   "notes", "createdAt", "updatedAt",
 ];
 
-// ---- Metrics Sheet -----------------------------------------
-// id | date | weightKg | restingHr | sleepHours | fatigueScore | hrv | notes | createdAt | updatedAt
-export const METRICS_COLS = {
-  id: 0,
-  date: 1,
-  weightKg: 2,
-  restingHr: 3,
-  sleepHours: 4,
-  fatigueScore: 5,
-  hrv: 6,
-  notes: 7,
-  createdAt: 8,
-  updatedAt: 9,
-} as const;
-
-export const METRICS_HEADERS = [
-  "id", "date", "weightKg", "restingHr", "sleepHours",
-  "fatigueScore", "hrv", "notes", "createdAt", "updatedAt",
-];
