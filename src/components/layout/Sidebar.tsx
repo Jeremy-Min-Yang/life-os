@@ -8,6 +8,7 @@ import {
   CheckSquare,
   BookOpen,
   Activity,
+  CalendarDays,
   Settings,
   LogOut,
 } from "lucide-react";
@@ -19,6 +20,7 @@ const navItems = [
   { href: "/tasks", label: "Tasks", icon: CheckSquare },
   { href: "/diary", label: "Diary", icon: BookOpen },
   { href: "/training", label: "Training", icon: Activity },
+  { href: "/calendar", label: "Calendar", icon: CalendarDays },
   { href: "/settings", label: "Settings", icon: Settings },
 ];
 
