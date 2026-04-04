@@ -56,7 +56,10 @@ export async function fetchCalendarList(accessToken: string): Promise<GoogleCale
     "https://www.googleapis.com/calendar/v3/users/me/calendarList?minAccessRole=reader",
     { headers: { Authorization: `Bearer ${accessToken}` } }
   );
-  if (!res.ok) throw new Error("Failed to fetch calendar list");
+  if (!res.ok) {
+    const err = await res.json().catch(() => ({}));
+    throw new Error(err?.error?.message ?? `Calendar API error (${res.status})`);
+  }
   const data = await res.json();
   return data.items ?? [];
 }
