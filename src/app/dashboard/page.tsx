@@ -5,6 +5,7 @@ import { AppShell } from "@/components/layout/AppShell";
 import { TasksWidget } from "@/components/dashboard/TasksWidget";
 import { TrainingWidget } from "@/components/dashboard/TrainingWidget";
 import { HabitTrackerWidget } from "@/components/dashboard/HabitTrackerWidget";
+import { CalendarWidget } from "@/components/dashboard/CalendarWidget";
 import { useDashboard } from "@/hooks/useDashboard";
 import { BookOpen, RefreshCw } from "lucide-react";
 import { Card, CardHeader, CardTitle } from "@/components/ui/Card";
@@ -111,6 +112,9 @@ export default function DashboardPage() {
 
           {/* Habit Tracker */}
           <HabitTrackerWidget />
+
+          {/* Calendar */}
+          <CalendarWidget />
         </div>
       ) : null}
     </AppShell>
