@@ -18,11 +18,16 @@ const PATCH = withRateLimit(
     if (!token) {
       return NextResponse.json(apiError("No calendar access token"), { status: 401 });
     }
-    const { eventId } = params;
-    const body = await req.json();
-    const { calendarId, ...input } = body;
-    const event = await updateEvent(token, eventId, calendarId ?? "primary", input);
-    return NextResponse.json(apiSuccess(event));
+    try {
+      const { eventId } = params;
+      const body = await req.json();
+      const { calendarId, ...input } = body;
+      const event = await updateEvent(token, eventId, calendarId ?? "primary", input);
+      return NextResponse.json(apiSuccess(event));
+    } catch (e) {
+      const msg = e instanceof Error ? e.message : "Failed to update event";
+      return NextResponse.json(apiError(msg), { status: 500 });
+    }
   })
 );
 
@@ -32,11 +37,16 @@ const DELETE = withRateLimit(
     if (!token) {
       return NextResponse.json(apiError("No calendar access token"), { status: 401 });
     }
-    const { eventId } = params;
-    const { searchParams } = req.nextUrl;
-    const calendarId = searchParams.get("calendarId") ?? "primary";
-    await deleteEvent(token, eventId, calendarId);
-    return NextResponse.json(apiSuccess(null));
+    try {
+      const { eventId } = params;
+      const { searchParams } = req.nextUrl;
+      const calendarId = searchParams.get("calendarId") ?? "primary";
+      await deleteEvent(token, eventId, calendarId);
+      return NextResponse.json(apiSuccess(null));
+    } catch (e) {
+      const msg = e instanceof Error ? e.message : "Failed to delete event";
+      return NextResponse.json(apiError(msg), { status: 500 });
+    }
   })
 );
 

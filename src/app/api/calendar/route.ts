@@ -16,19 +16,27 @@ const GET = withRateLimit(
   withAuth(async (req, { session }) => {
     const token = getToken(session);
     if (!token) {
-      return NextResponse.json(apiError("No calendar access token — please sign out and sign in again"), { status: 401 });
+      return NextResponse.json(
+        apiError("No calendar access token — please sign out and sign in again"),
+        { status: 401 }
+      );
     }
 
-    const { searchParams } = req.nextUrl;
-    const year = searchParams.get("year");
-    const month = searchParams.get("month");
+    try {
+      const { searchParams } = req.nextUrl;
+      const year = searchParams.get("year");
+      const month = searchParams.get("month");
 
-    const events =
-      year && month
-        ? await fetchMonthEvents(token, parseInt(year), parseInt(month))
-        : await fetchUpcomingEvents(token, 6);
+      const events =
+        year && month
+          ? await fetchMonthEvents(token, parseInt(year), parseInt(month))
+          : await fetchUpcomingEvents(token, 6);
 
-    return NextResponse.json(apiSuccess(events));
+      return NextResponse.json(apiSuccess(events));
+    } catch (e) {
+      const msg = e instanceof Error ? e.message : "Failed to fetch calendar events";
+      return NextResponse.json(apiError(msg), { status: 500 });
+    }
   })
 );
 
@@ -38,9 +46,14 @@ const POST = withRateLimit(
     if (!token) {
       return NextResponse.json(apiError("No calendar access token"), { status: 401 });
     }
-    const body = await req.json();
-    const event = await createEvent(token, body);
-    return NextResponse.json(apiSuccess(event), { status: 201 });
+    try {
+      const body = await req.json();
+      const event = await createEvent(token, body);
+      return NextResponse.json(apiSuccess(event), { status: 201 });
+    } catch (e) {
+      const msg = e instanceof Error ? e.message : "Failed to create event";
+      return NextResponse.json(apiError(msg), { status: 500 });
+    }
   })
 );
 
