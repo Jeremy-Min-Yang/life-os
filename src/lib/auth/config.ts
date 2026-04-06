@@ -48,7 +48,7 @@ export const authOptions: NextAuthOptions = {
             "openid",
             "email",
             "profile",
-            "https://www.googleapis.com/auth/calendar.events",
+            "https://www.googleapis.com/auth/calendar",
           ].join(" "),
           access_type: "offline",
           prompt: "consent",
