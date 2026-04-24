@@ -80,10 +80,13 @@ export const authOptions: NextAuthOptions = {
       if (account) {
         token.accessToken = account.access_token;
         token.refreshToken = account.refresh_token;
-        token.accessTokenExpires = account.expires_at ? account.expires_at * 1000 : 0;
+        // expires_at is a Unix timestamp in seconds; fall back to 1-hour window
+        token.accessTokenExpires = account.expires_at
+          ? account.expires_at * 1000
+          : Date.now() + 3600 * 1000;
       }
-      // Refresh the access token if expired
-      if (token.accessTokenExpires && Date.now() > (token.accessTokenExpires as number)) {
+      // Refresh the access token if expired (with 60s buffer to avoid races)
+      if (Date.now() > ((token.accessTokenExpires as number) - 60_000)) {
         token = await refreshAccessToken(token);
       }
       return token;
